@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 1500
 
 #include <behaviors.dtsi>
@@ -24,11 +25,6 @@
             key-positions = <23 24>;
         };
 
-        layer_3 {
-            bindings = <&mo 3>;
-            key-positions = <41 44>;
-        };
-
         service_layer {
             bindings = <&mo 5>;
             key-positions = <40 41 42>;
@@ -48,13 +44,11 @@
             //                    | GUI | LWR | SPC |               | ENT | RSE  | ALT |
 
             bindings = <
-&kp TAB         &kp Q  &kp W  &kp E     &kp R  &kp T     &kp C_MUTE  &kp C_PP  &kp Y      &kp U  &kp I      &kp O    &kp P     &kp BSPC
-&kp LCTRL       &kp A  &kp S  &kp D     &kp F  &kp G     &kp LALT    &kp RALT  &kp H      &kp J  &kp K      &kp L    &kp SEMI  &kp ENTER
-&kp LEFT_SHIFT  &kp Z  &kp X  &kp C     &kp V  &kp B                           &kp N      &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp SQT
-                              &kp LGUI  &mo 1  &kp LALT                        &kp SPACE  &mo 2  &kp RALT
+&kp TAB         &kp Q  &kp W  &kp E     &kp R  &kp T     &kp C_MUTE  &kp K_SCROLL_UP    &kp Y      &kp U  &kp I      &kp O    &kp P     &kp BSPC
+&kp LCTRL       &kp A  &kp S  &kp D     &kp F  &kp G     &kp LALT    &kp K_SCROLL_DOWN  &kp H      &kp J  &kp K      &kp L    &kp SEMI  &kp ENTER
+&kp LEFT_SHIFT  &kp Z  &kp X  &kp C     &kp V  &kp B                                    &kp N      &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp SQT
+                              &kp LGUI  &mo 1  &kp LALT                                 &kp SPACE  &mo 2  &kp RALT
             >;
-
-            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN &inc_dec_kp C_PREV C_NEXT &inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
         lower_layer {
@@ -67,10 +61,10 @@
             //                    | GUI |     | SPC   |        | ENT   |     | ALT |
 
             bindings = <
-&kp ESC    &kp N1  &kp N2     &kp N3    &kp N4     &kp N5    &kp LCTRL  &kp RCTRL  &kp N6          &kp N7          &kp N8        &kp N9           &kp N0  &kp BSPC
-&kp LCTRL  &trans  &mkp RCLK  &trans    &mkp LCLK  &trans    &kp LALT   &kp RALT   &kp LEFT        &kp DOWN        &kp UP        &kp RIGHT        &trans  &trans
-&kp LSHFT  &trans  &trans     &trans    &trans     &trans                          &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &trans  &trans
-                              &kp LGUI  &trans     &kp LGUI                        &kp SPACE       &trans          &kp SPACE
+&kp ESC    &kp N1  &kp N2     &kp N3    &kp N4     &kp N5    &kp LCTRL  &msc SCRL_UP    &kp N6          &kp N7          &kp N8        &kp N9           &kp N0  &kp BSPC
+&kp LCTRL  &trans  &mkp RCLK  &trans    &mkp LCLK  &trans    &kp LALT   &msc SCRL_DOWN  &kp LEFT        &kp DOWN        &kp UP        &kp RIGHT        &trans  &trans
+&kp LSHFT  &trans  &trans     &trans    &trans     &trans                               &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &trans  &trans
+                              &kp LGUI  &trans     &kp LGUI                             &kp SPACE       &trans          &kp SPACE
             >;
         };
 
@@ -84,20 +78,20 @@
             //                    | GUI |     | SPC |               | ENT |     | ALT |
 
             bindings = <
-&kp TAB    &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT  &kp LCTRL  &kp RCTRL  &kp CARET  &kp AMPS   &kp ASTRK  &kp LPAR  &kp RPAR  &kp BSPC
-&kp LCTRL  &trans    &trans  &trans    &trans    &trans     &kp LALT   &kp RALT   &kp MINUS  &kp EQUAL  &kp LBKT   &kp RBKT  &kp BSLH  &kp GRAVE
-&kp LSHFT  &trans    &trans  &trans    &trans    &trans                           &kp UNDER  &kp PLUS   &kp LBRC   &kp RBRC  &kp PIPE  &kp TILDE
-                             &kp LGUI  &trans    &kp SPACE                        &kp RET    &trans     &kp RALT
+&kp TAB    &kp EXCL  &kp AT  &kp HASH  &kp DLLR              &kp PRCNT          &kp C_PLAY_PAUSE  &kp RCTRL  &kp CARET  &kp AMPS   &kp ASTRK  &kp LPAR  &kp RPAR  &kp BSPC
+&kp LCTRL  &trans    &trans  &trans    &kp C_BRIGHTNESS_INC  &kp K_VOLUME_UP    &kp K_MUTE        &kp RALT   &kp MINUS  &kp EQUAL  &kp LBKT   &kp RBKT  &kp BSLH  &kp GRAVE
+&kp LSHFT  &trans    &trans  &trans    &kp C_BRI_DEC         &kp C_VOLUME_DOWN                               &kp UNDER  &kp PLUS   &kp LBRC   &kp RBRC  &kp PIPE  &kp TILDE
+                             &kp LGUI  &mo 3                 &kp SPACE                                       &kp RET    &trans     &kp RALT
             >;
         };
 
         extra_layer_1 {
             display-name = "EXTRA 1";
             bindings = <
-&trans  &trans  &trans  &trans      &trans       &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans      &trans       &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &sys_reset  &bootloader  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
-                        &trans      &trans       &trans                  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+                        &trans  &trans  &trans                  &trans  &trans  &trans
             >;
         };
 
