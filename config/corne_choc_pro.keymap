@@ -31,6 +31,28 @@
         };
     };
 
+    macros {
+        g_1: g_1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp G &kp N1>;
+            label = "G_1";
+        };
+
+        ca_1: ca_1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&kp LC(A)>,
+                <&macro_press>,
+                <&macro_press>,
+                <&macro_press>,
+                <&kp N1>;
+
+            label = "CA_1";
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -64,7 +86,7 @@
 &kp ESC    &kp N1  &kp N2     &kp N3    &kp N4     &kp N5    &kp LCTRL  &msc SCRL_UP    &kp N6          &kp N7          &kp N8        &kp N9           &kp N0  &kp BSPC
 &kp LCTRL  &trans  &mkp RCLK  &trans    &mkp LCLK  &trans    &kp LALT   &msc SCRL_DOWN  &kp LEFT        &kp DOWN        &kp UP        &kp RIGHT        &trans  &trans
 &kp LSHFT  &trans  &trans     &trans    &trans     &trans                               &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &trans  &trans
-                              &kp LGUI  &trans     &kp LGUI                             &kp SPACE       &trans          &kp SPACE
+                              &kp LGUI  &trans     &kp LGUI                             &kp SPACE       &to 3           &kp SPACE
             >;
         };
 
@@ -78,27 +100,27 @@
             //                    | GUI |     | SPC |               | ENT |     | ALT |
 
             bindings = <
-&kp TAB    &kp EXCL  &kp AT  &kp HASH  &kp DLLR              &kp PRCNT          &kp C_PLAY_PAUSE  &kp RCTRL  &kp CARET  &kp AMPS   &kp ASTRK  &kp LPAR  &kp RPAR  &kp BSPC
-&kp LCTRL  &trans    &trans  &trans    &kp C_BRIGHTNESS_INC  &kp K_VOLUME_UP    &kp K_MUTE        &kp RALT   &kp MINUS  &kp EQUAL  &kp LBKT   &kp RBKT  &kp BSLH  &kp GRAVE
-&kp LSHFT  &trans    &trans  &trans    &kp C_BRI_DEC         &kp C_VOLUME_DOWN                               &kp UNDER  &kp PLUS   &kp LBRC   &kp RBRC  &kp PIPE  &kp TILDE
-                             &kp LGUI  &mo 3                 &kp SPACE                                       &kp RET    &trans     &kp RALT
+&kp TAB    &kp EXCL  &kp AT  &kp HASH  &kp DLLR       &kp PRCNT           &kp C_PLAY_PAUSE  &kp RCTRL  &kp CARET  &kp AMPS   &kp ASTRK  &kp LPAR  &kp RPAR  &kp BSPC
+&kp LCTRL  &trans    &trans  &trans    &kp C_BRI_UP   &kp K_VOLUME_UP2    &kp K_MUTE        &kp RALT   &kp MINUS  &kp EQUAL  &kp LBKT   &kp RBKT  &kp BSLH  &kp GRAVE
+&kp LSHFT  &trans    &trans  &trans    &kp C_BRI_DEC  &kp K_VOLUME_DOWN2                               &kp UNDER  &kp PLUS   &kp LBRC   &kp RBRC  &kp PIPE  &kp TILDE
+                             &kp LGUI  &mo 4          &kp SPACE                                        &kp RET    &trans     &kp RALT
             >;
         };
 
-        extra_layer_1 {
+        navigation_layer {
             display-name = "EXTRA 1";
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &g_1    &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &ca_1   &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
                         &trans  &trans  &trans                  &trans  &trans  &trans
             >;
         };
 
-        extra_layer_2 {
+        f_layer {
             display-name = "EXTRA 2";
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
                         &trans  &trans  &trans                  &trans  &trans  &trans
