@@ -39,6 +39,69 @@
             label = "G_1";
         };
 
+        g_2: g_2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp G &kp N2>;
+            label = "G_2";
+        };
+
+        g_3: g_3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp G &kp N3>;
+            label = "G_3";
+        };
+
+        g_4: g_4 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp G &kp N4>;
+            label = "G_4";
+        };
+
+        g_5: g_5 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp G &kp N5>;
+            label = "G_5";
+        };
+
+        g_6: g_6 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp G &kp N6>;
+            label = "G_6";
+        };
+
+        g_7: g_7 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp G &kp N7>;
+            label = "G_7";
+        };
+
+        g_8: g_8 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp G &kp N8>;
+            label = "G_8";
+        };
+
+        g_9: g_9 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp G &kp N9>;
+            label = "G_9";
+        };
+
+        g_0: g_0 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp G &kp N0>;
+            label = "G_0";
+        };
+
         ca_1: ca_1 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -46,11 +109,137 @@
             label = "CA_1";
         };
 
-        g_2: g_2 {
+        ca_2: ca_2 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp G &kp N2>;
-            label = "G_2";
+            bindings = <&kp LC(A) &kp N2>;
+            label = "CA_2";
+        };
+
+        ca_3: ca_3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(A) &kp N3>;
+            label = "CA_3";
+        };
+
+        ca_4: ca_4 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(A) &kp N4>;
+            label = "CA_4";
+        };
+
+        ca_5: ca_5 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(A) &kp N5>;
+            label = "CA_5";
+        };
+
+        ca_6: ca_6 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(A) &kp N6>;
+            label = "CA_6";
+        };
+
+        ca_7: ca_7 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(A) &kp N7>;
+            label = "CA_7";
+        };
+
+        ca_8: ca_8 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(A) &kp N8>;
+            label = "CA_8";
+        };
+
+        ca_9: ca_9 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(A) &kp N9>;
+            label = "CA_9";
+        };
+
+        ca_0: ca_0 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(A) &kp N0>;
+            label = "CA_0";
+        };
+
+        cb_1: cb_1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(B) &kp N1>;
+            label = "CB_1";
+        };
+
+        cb_2: cb_2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(B) &kp N2>;
+            label = "CB_2";
+        };
+
+        cb_3: cb_3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(B) &kp N3>;
+            label = "CB_3";
+        };
+
+        cb_4: cb_4 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(B) &kp N4>;
+            label = "CB_4";
+        };
+
+        cb_5: cb_5 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(B) &kp N5>;
+            label = "CB_5";
+        };
+
+        cb_6: cb_6 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(B) &kp N6>;
+            label = "CB_6";
+        };
+
+        cb_7: cb_7 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(B) &kp N7>;
+            label = "CB_7";
+        };
+
+        cb_8: cb_8 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(B) &kp N8>;
+            label = "CB_8";
+        };
+
+        cb_9: cb_9 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(B) &kp N9>;
+            label = "CB_9";
+        };
+
+        cb_0: cb_0 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(B) &kp N0>;
+            label = "CB_0";
         };
     };
 
@@ -111,9 +300,9 @@
         navigation_layer {
             display-name = "EXTRA 1";
             bindings = <
-&trans  &g_1    &g_2    &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &ca_1   &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &g_1    &g_2    &g_3    &g_4    &g_5    &trans  &trans  &g_6    &g_7    &g_8    &g_9    &g_0    &trans
+&trans  &ca_1   &ca_2   &ca_3   &ca_4   &ca_5   &trans  &trans  &ca_6   &ca_7   &ca_8   &ca_9   &ca_0   &trans
+&trans  &cb_1   &cb_2   &cb_3   &cb_4   &cb_5                   &cb_6   &cb_7   &cb_8   &cb_9   &cb_0   &trans
                         &trans  &trans  &trans                  &trans  &trans  &trans
             >;
         };
@@ -121,7 +310,7 @@
         f_layer {
             display-name = "EXTRA 2";
             bindings = <
-&trans  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &trans  &trans  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10 &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
                         &trans  &trans  &trans                  &trans  &trans  &trans
