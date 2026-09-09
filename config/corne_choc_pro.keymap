@@ -300,20 +300,20 @@
         navigation_layer {
             display-name = "EXTRA 1";
             bindings = <
-&trans  &g_1    &g_2    &g_3    &g_4    &g_5    &trans  &trans  &g_6    &g_7    &g_8    &g_9    &g_0    &trans
-&trans  &ca_1   &ca_2   &ca_3   &ca_4   &ca_5   &trans  &trans  &ca_6   &ca_7   &ca_8   &ca_9   &ca_0   &trans
-&trans  &cb_1   &cb_2   &cb_3   &cb_4   &cb_5                   &cb_6   &cb_7   &cb_8   &cb_9   &cb_0   &trans
-                        &trans  &trans  &trans                  &trans  &trans  &trans
+&trans  &g_1   &g_2   &g_3    &g_4    &g_5    &trans  &trans  &g_6    &g_7    &g_8    &g_9   &g_0   &trans
+&trans  &ca_1  &ca_2  &ca_3   &ca_4   &ca_5   &trans  &trans  &ca_6   &ca_7   &ca_8   &ca_9  &ca_0  &trans
+&trans  &cb_1  &cb_2  &cb_3   &cb_4   &cb_5                   &cb_6   &cb_7   &cb_8   &cb_9  &cb_0  &trans
+                      &trans  &trans  &trans                  &trans  &trans  &trans
             >;
         };
 
         f_layer {
             display-name = "EXTRA 2";
             bindings = <
-&trans  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &trans  &trans  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10 &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
-                        &trans  &trans  &trans                  &trans  &trans  &trans
+&kp F11  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &trans  &trans  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &kp F12
+&trans   &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans   &trans
+&trans   &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans   &trans
+                         &trans  &trans  &trans                  &trans  &trans  &trans
             >;
         };
 
