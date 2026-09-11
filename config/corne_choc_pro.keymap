@@ -274,7 +274,7 @@
 
             bindings = <
 &kp ESC    &kp N1  &kp N2     &kp N3    &kp N4     &kp N5    &kp LCTRL  &msc SCRL_UP    &kp N6          &kp N7          &kp N8        &kp N9           &kp N0  &kp BSPC
-&kp LCTRL  &trans  &mkp RCLK  &trans    &mkp LCLK  &trans    &kp LALT   &msc SCRL_DOWN  &kp LEFT        &kp DOWN        &kp UP        &kp RIGHT        &trans  &trans
+&kp LCTRL  &trans  &mkp RCLK  &trans    &mkp LCLK  &trans    &kp CAPS   &msc SCRL_DOWN  &kp LEFT        &kp DOWN        &kp UP        &kp RIGHT        &trans  &trans
 &kp LSHFT  &trans  &trans     &trans    &trans     &trans                               &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &trans  &trans
                               &kp LGUI  &trans     &kp LGUI                             &kp SPACE       &mo 3           &kp SPACE
             >;
@@ -349,6 +349,15 @@
 
         extra_layer_6 {
             display-name = "EXTRA 6";
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+                        &trans  &trans  &trans                  &trans  &trans  &trans
+            >;
+        };
+
+        layer_9 {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
