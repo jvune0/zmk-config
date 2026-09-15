@@ -20,11 +20,6 @@
     combos {
         compatible = "zmk,combos";
 
-        esc {
-            bindings = <&kp ESC>;
-            key-positions = <23 24>;
-        };
-
         service_layer {
             bindings = <&mo 5>;
             key-positions = <40 41 42>;
