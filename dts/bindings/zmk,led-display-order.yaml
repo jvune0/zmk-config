@@ -1,0 +1,10 @@
+description: |
+  Order in which indicators fill the LEDs of the underglow strip. Each entry is an LED index
+  in the chain; the first entry lights up first.
+
+compatible: "zmk,led-display-order"
+
+properties:
+  order:
+    type: array
+    required: true

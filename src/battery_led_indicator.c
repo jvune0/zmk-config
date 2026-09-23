@@ -82,12 +82,23 @@ static struct led_rgb level_color(uint8_t level) {
     return (struct led_rgb){.r = v, .g = 0, .b = 0};
 }
 
+#if DT_HAS_COMPAT_STATUS_OKAY(zmk_led_display_order)
+#define DISPLAY_ORDER_NODE DT_INST(0, zmk_led_display_order)
+BUILD_ASSERT(DT_PROP_LEN(DISPLAY_ORDER_NODE, order) == STRIP_NUM_PIXELS,
+             "led-display-order must list every LED of the strip");
+static const uint8_t display_order[] = DT_PROP(DISPLAY_ORDER_NODE, order);
+#define DISPLAY_LED(i) display_order[i]
+#else
+// No display order given, fill the LEDs in chain order.
+#define DISPLAY_LED(i) (i)
+#endif
+
 static void draw(uint8_t level, bool lit) {
     struct led_rgb color = level_color(level);
     int count = lit ? DIV_ROUND_UP(MIN(level, 100) * STRIP_NUM_PIXELS, 100) : 0;
 
     for (int i = 0; i < STRIP_NUM_PIXELS; i++) {
-        pixels[i] = i < count ? color : (struct led_rgb){.r = 0, .g = 0, .b = 0};
+        pixels[DISPLAY_LED(i)] = i < count ? color : (struct led_rgb){.r = 0, .g = 0, .b = 0};
     }
 
     int err = led_strip_update_rgb(strip, pixels, STRIP_NUM_PIXELS);

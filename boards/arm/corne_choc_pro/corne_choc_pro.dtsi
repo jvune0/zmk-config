@@ -87,6 +87,20 @@
         sensors = <&left_ex1_encoder &left_ex2_encoder &right_ex1_encoder &right_ex2_encoder>;
         triggers-per-rotation = <24>;
     };
+
+    // Order in which indicators (battery level) fill the LEDs: row by row from the top, from
+    // the outer column inwards, thumb keys last. The halves are mirrored, so the same list
+    // runs left to right on the left half and right to left on the right half.
+    // See docs/leds.md for the LED numbers.
+    led_display_order: led_display_order {
+        compatible = "zmk,led-display-order";
+        order = <
+            18 17 12 11  4  3 21
+            19 16 13 10  5  2 22
+            20 15 14  9  6  1
+                      8  7  0
+        >;
+    };
 };
 
 &gpio0 {
