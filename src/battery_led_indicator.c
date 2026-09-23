@@ -6,6 +6,8 @@
  *   to the charge, the color is green / yellow / red.
  * - When the battery drops to CONFIG_ZMK_BATTERY_LED_WARN_LEVEL (and then every
  *   CONFIG_ZMK_BATTERY_LED_WARN_STEP percent lower) the same picture blinks red.
+ * - &bat_test plays the indicator from 100% down to 0%, one percent every
+ *   CONFIG_ZMK_BATTERY_LED_TEST_STEP_MS, to preview how it looks. Pressing it again stops it.
  *
  * While the indicator is shown the regular underglow is switched off, and its
  * previous state is restored afterwards (see led_takeover.c).
@@ -49,11 +51,17 @@ static const struct device *const strip = DEVICE_DT_GET(STRIP_NODE);
 static struct led_rgb pixels[STRIP_NUM_PIXELS];
 
 // All of the state below is only touched from the low priority work queue.
+enum mode {
+    MODE_SHOW,
+    MODE_WARN,
+    MODE_TEST,
+};
+
 static bool active;
-static bool warn_mode;
+static enum mode mode;
 static int frame;
 
-static atomic_t requested_warn;
+static atomic_t requested_mode;
 
 static void frame_work_cb(struct k_work *work);
 static void start_work_cb(struct k_work *work);
@@ -94,9 +102,23 @@ static void finish(void) {
 }
 
 static void frame_work_cb(struct k_work *work) {
+    if (mode == MODE_TEST) {
+        // Frame N shows 100 - N percent; after 0% has been shown for one step we're done.
+        int level = 100 - frame;
+        if (level < 0) {
+            finish();
+            return;
+        }
+        draw(level, true);
+        frame++;
+        k_work_reschedule_for_queue(zmk_workqueue_lowprio_work_q(), &frame_work,
+                                    K_MSEC(CONFIG_ZMK_BATTERY_LED_TEST_STEP_MS));
+        return;
+    }
+
     uint8_t level = zmk_battery_state_of_charge();
 
-    if (warn_mode) {
+    if (mode == MODE_WARN) {
         // Even frames are "on", odd frames are "off".
         if (frame >= CONFIG_ZMK_BATTERY_LED_WARN_BLINKS * 2) {
             finish();
@@ -124,21 +146,28 @@ static void start_work_cb(struct k_work *work) {
         return;
     }
 
+    enum mode requested = atomic_get(&requested_mode);
+
+    if (active && mode == MODE_TEST && requested == MODE_TEST) {
+        // Second press of &bat_test stops the test.
+        k_work_cancel_delayable(&frame_work);
+        finish();
+        return;
+    }
+
     if (!active) {
         led_takeover_begin();
         active = true;
     }
 
-    warn_mode = atomic_clear(&requested_warn);
+    mode = requested;
     frame = 0;
     k_work_reschedule_for_queue(zmk_workqueue_lowprio_work_q(), &frame_work,
                                 LED_TAKEOVER_POWER_UP_DELAY);
 }
 
-static void battery_led_indicator_start(bool warn) {
-    if (warn) {
-        atomic_set(&requested_warn, 1);
-    }
+static void battery_led_indicator_start(enum mode requested) {
+    atomic_set(&requested_mode, requested);
     k_work_submit_to_queue(zmk_workqueue_lowprio_work_q(), &start_work);
 }
 
@@ -172,7 +201,7 @@ static void check_low_battery(uint8_t level) {
 
     if (last_warned_level < 0 || level + CONFIG_ZMK_BATTERY_LED_WARN_STEP <= last_warned_level) {
         last_warned_level = level;
-        battery_led_indicator_start(true);
+        battery_led_indicator_start(MODE_WARN);
     }
 }
 
@@ -207,7 +236,7 @@ ZMK_SUBSCRIPTION(battery_led_indicator, zmk_battery_state_changed);
 
 static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
-    battery_led_indicator_start(false);
+    battery_led_indicator_start(MODE_SHOW);
     return ZMK_BEHAVIOR_OPAQUE;
 }
 
@@ -228,5 +257,36 @@ static const struct behavior_driver_api behavior_battery_indicator_driver_api = 
 
 BEHAVIOR_DT_INST_DEFINE(0, NULL, NULL, NULL, NULL, POST_KERNEL, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT,
                         &behavior_battery_indicator_driver_api);
+
+#endif // DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)
+
+#undef DT_DRV_COMPAT
+#define DT_DRV_COMPAT zmk_behavior_battery_test
+
+#if DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)
+
+static int on_test_binding_pressed(struct zmk_behavior_binding *binding,
+                                   struct zmk_behavior_binding_event event) {
+    battery_led_indicator_start(MODE_TEST);
+    return ZMK_BEHAVIOR_OPAQUE;
+}
+
+static int on_test_binding_released(struct zmk_behavior_binding *binding,
+                                    struct zmk_behavior_binding_event event) {
+    return ZMK_BEHAVIOR_OPAQUE;
+}
+
+static const struct behavior_driver_api behavior_battery_test_driver_api = {
+    .binding_pressed = on_test_binding_pressed,
+    .binding_released = on_test_binding_released,
+    // Runs on both halves, like &bat_ind.
+    .locality = BEHAVIOR_LOCALITY_GLOBAL,
+#if IS_ENABLED(CONFIG_ZMK_BEHAVIOR_METADATA)
+    .get_parameter_metadata = zmk_behavior_get_empty_param_metadata,
+#endif
+};
+
+BEHAVIOR_DT_INST_DEFINE(0, NULL, NULL, NULL, NULL, POST_KERNEL, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT,
+                        &behavior_battery_test_driver_api);
 
 #endif // DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)

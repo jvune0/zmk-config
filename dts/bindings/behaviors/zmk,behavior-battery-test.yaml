@@ -1,0 +1,5 @@
+description: Play the battery level indicator from 100% down to 0%
+
+compatible: "zmk,behavior-battery-test"
+
+include: zero_param.yaml

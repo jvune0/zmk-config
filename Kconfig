@@ -41,6 +41,10 @@ config ZMK_BATTERY_LED_WARN_BLINKS
     int "Number of blinks in the low battery warning"
     default 3
 
+config ZMK_BATTERY_LED_TEST_STEP_MS
+    int "&bat_test: time per percent of simulated discharge"
+    default 100
+
 endif
 
 config ZMK_LED_STRIP_INDICATORS

@@ -27,6 +27,13 @@
             display-name = "Battery Level";
         };
 
+        // Plays the battery indicator from 100% down to 0% (see src/battery_led_indicator.c).
+        bat_test: bat_test {
+            compatible = "zmk,behavior-battery-test";
+            #binding-cells = <0>;
+            display-name = "Battery Test";
+        };
+
         // Lights the LEDs of the half it is pressed on one by one (see src/led_scan.c).
 
         led_scan: led_scan {
