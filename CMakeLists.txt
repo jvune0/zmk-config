@@ -1,0 +1,1 @@
+target_sources_ifdef(CONFIG_ZMK_BATTERY_LED_INDICATOR app PRIVATE src/battery_led_indicator.c)

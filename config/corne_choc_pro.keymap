@@ -17,6 +17,16 @@
 };
 
 / {
+    behaviors {
+        // Shows the battery level of each half on its LEDs (see src/battery_led_indicator.c).
+        // Node name must stay <= 8 chars to be relayed to the peripheral half.
+        bat_ind: bat_ind {
+            compatible = "zmk,behavior-battery-indicator";
+            #binding-cells = <0>;
+            display-name = "Battery Level";
+        };
+    };
+
     combos {
         compatible = "zmk,combos";
 
@@ -317,7 +327,7 @@
             bindings = <
 &trans  &trans        &trans           &trans        &trans        &trans          &trans  &trans  &trans           &trans           &trans           &trans           &trans  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1     &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &trans  &trans  &rgb_ug RGB_HUD  &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &rgb_ug RGB_HUI  &trans  &trans
-&trans  &bt BT_CLR    &rgb_ug RGB_TOG  &sys_reset    &bootloader   &studio_unlock                  &trans           &trans           &trans           &trans           &trans  &trans
+&trans  &bt BT_CLR    &rgb_ug RGB_TOG  &sys_reset    &bootloader   &studio_unlock                  &bat_ind         &trans           &trans           &trans           &trans  &trans
                                        &trans        &trans        &trans                          &trans           &trans           &trans
             >;
         };

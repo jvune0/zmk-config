@@ -1,0 +1,5 @@
+description: Show the battery level of each half on its RGB underglow LEDs
+
+compatible: "zmk,behavior-battery-indicator"
+
+include: zero_param.yaml

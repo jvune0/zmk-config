@@ -1,0 +1,39 @@
+config ZMK_BATTERY_LED_INDICATOR
+    bool "Show battery level on the RGB underglow LEDs"
+    default y
+    depends on ZMK_RGB_UNDERGLOW && ZMK_BATTERY_REPORTING
+
+if ZMK_BATTERY_LED_INDICATOR
+
+config ZMK_BATTERY_LED_DURATION_MS
+    int "How long the battery level is shown after &bat_ind is pressed"
+    default 3000
+
+config ZMK_BATTERY_LED_BRIGHTNESS
+    int "Indicator brightness in percent"
+    range 1 100
+    default 20
+
+config ZMK_BATTERY_LED_LEVEL_HIGH
+    int "Battery level above which the indicator is green"
+    default 60
+
+config ZMK_BATTERY_LED_LEVEL_LOW
+    int "Battery level above which the indicator is yellow (red at or below)"
+    default 30
+
+config ZMK_BATTERY_LED_WARN_LEVEL
+    int "Blink red when the battery drops to this level (0 disables)"
+    range 0 100
+    default 15
+
+config ZMK_BATTERY_LED_WARN_STEP
+    int "Repeat the low battery warning every N percent of further discharge"
+    range 1 100
+    default 5
+
+config ZMK_BATTERY_LED_WARN_BLINKS
+    int "Number of blinks in the low battery warning"
+    default 3
+
+endif
