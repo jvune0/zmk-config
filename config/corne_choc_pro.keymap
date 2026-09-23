@@ -28,6 +28,7 @@
         };
 
         // Plays the battery indicator from 100% down to 0% (see src/battery_led_indicator.c).
+
         bat_test: bat_test {
             compatible = "zmk,behavior-battery-test";
             #binding-cells = <0>;
@@ -341,9 +342,9 @@
         service_layer {
             display-name = "SERVICE";
             bindings = <
-&led_scan   &trans           &trans        &trans        &trans        &studio_unlock  &bootloader  &bootloader  &trans           &trans           &trans           &trans           &trans  &led_scan
-&trans      &bt BT_SEL 0     &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &sys_reset   &sys_reset   &rgb_ug RGB_HUD  &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &rgb_ug RGB_HUI  &trans  &trans
-&bt BT_CLR  &rgb_ug RGB_TOG  &bat_ind      &trans        &trans        &trans                                    &trans           &trans           &trans           &trans           &trans  &trans
+&led_scan   &bat_test        &trans        &trans        &trans        &studio_unlock  &bootloader  &bootloader  &trans           &trans           &trans           &trans           &bat_test  &led_scan
+&trans      &bt BT_SEL 0     &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &sys_reset   &sys_reset   &rgb_ug RGB_HUD  &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &rgb_ug RGB_HUI  &trans     &trans
+&bt BT_CLR  &rgb_ug RGB_TOG  &bat_ind      &trans        &trans        &trans                                    &trans           &trans           &trans           &trans           &trans     &trans
                                            &trans        &trans        &trans                                    &trans           &trans           &trans
             >;
         };
