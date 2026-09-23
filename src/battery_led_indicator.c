@@ -8,7 +8,7 @@
  *   CONFIG_ZMK_BATTERY_LED_WARN_STEP percent lower) the same picture blinks red.
  *
  * While the indicator is shown the regular underglow is switched off, and its
- * previous state is restored afterwards.
+ * previous state is restored afterwards (see led_takeover.c).
  *
  * SPDX-License-Identifier: MIT
  */
@@ -22,7 +22,6 @@
 #include <zephyr/logging/log.h>
 
 #include <drivers/behavior.h>
-#include <drivers/ext_power.h>
 
 #include <zmk/battery.h>
 #include <zmk/behavior.h>
@@ -41,28 +40,17 @@ LOG_MODULE_REGISTER(battery_led, CONFIG_ZMK_LOG_LEVEL);
 #define STRIP_NODE DT_CHOSEN(zmk_underglow)
 #define STRIP_NUM_PIXELS DT_PROP(STRIP_NODE, chain_length)
 
-// Time for the LED power rail to come up after EXT_POWER is enabled.
-#define POWER_UP_DELAY K_MSEC(100)
 #define BLINK_PERIOD K_MSEC(300)
 // Battery events during boot are postponed until the underglow settings are loaded.
 #define BOOT_GRACE_MS 10000
 
 static const struct device *const strip = DEVICE_DT_GET(STRIP_NODE);
 
-#if DT_HAS_COMPAT_STATUS_OKAY(zmk_ext_power_generic)
-static const struct device *const ext_power = DEVICE_DT_GET(DT_INST(0, zmk_ext_power_generic));
-#else
-static const struct device *const ext_power = NULL;
-#endif
-
 static struct led_rgb pixels[STRIP_NUM_PIXELS];
 
-// All of the state below is only touched from the low priority work queue,
-// the same queue the underglow driver uses to update the strip.
+// All of the state below is only touched from the low priority work queue.
 static bool active;
 static bool warn_mode;
-static bool restore_underglow;
-static bool restore_ext_power_off;
 static int frame;
 
 static atomic_t requested_warn;
@@ -73,19 +61,8 @@ static void start_work_cb(struct k_work *work);
 static K_WORK_DELAYABLE_DEFINE(frame_work, frame_work_cb);
 static K_WORK_DEFINE(start_work, start_work_cb);
 
-// Channel value (0-255) for the indicator.
-static uint8_t indicator_brightness(void) {
-#if CONFIG_ZMK_BATTERY_LED_BRIGHTNESS > 0
-    int percent = CONFIG_ZMK_BATTERY_LED_BRIGHTNESS;
-#else
-    int percent = underglow_brightness_percent();
-#endif
-    // Never go fully dark, otherwise the indicator would be invisible.
-    return MAX(percent * 255 / 100, 1);
-}
-
 static struct led_rgb level_color(uint8_t level) {
-    uint8_t v = indicator_brightness();
+    uint8_t v = indicator_channel_value(CONFIG_ZMK_BATTERY_LED_BRIGHTNESS);
 
     if (level > CONFIG_ZMK_BATTERY_LED_LEVEL_HIGH) {
         return (struct led_rgb){.r = 0, .g = v, .b = 0};
@@ -111,24 +88,8 @@ static void draw(uint8_t level, bool lit) {
     }
 }
 
-bool battery_led_indicator_is_active(void) { return active; }
-
 static void finish(void) {
-    if (restore_underglow) {
-        zmk_rgb_underglow_on();
-    } else {
-        draw(0, false);
-
-        bool keep_power = false;
-#if IS_ENABLED(CONFIG_ZMK_LED_STRIP_INDICATORS)
-        // The Caps Lock LED still needs the power rail.
-        keep_power = led_strip_indicators_need_power();
-#endif
-        if (restore_ext_power_off && ext_power != NULL && !keep_power) {
-            ext_power_disable(ext_power);
-        }
-    }
-
+    led_takeover_end();
     active = false;
 }
 
@@ -164,26 +125,14 @@ static void start_work_cb(struct k_work *work) {
     }
 
     if (!active) {
-        bool on = false;
-        zmk_rgb_underglow_get_state(&on);
-        restore_underglow = on;
-        if (on) {
-            // Stops the underglow animation so it doesn't overwrite the indicator.
-            zmk_rgb_underglow_off();
-        }
-
-        restore_ext_power_off = false;
-        if (ext_power != NULL && ext_power_get(ext_power) <= 0) {
-            ext_power_enable(ext_power);
-            restore_ext_power_off = true;
-        }
-
+        led_takeover_begin();
         active = true;
     }
 
     warn_mode = atomic_clear(&requested_warn);
     frame = 0;
-    k_work_reschedule_for_queue(zmk_workqueue_lowprio_work_q(), &frame_work, POWER_UP_DELAY);
+    k_work_reschedule_for_queue(zmk_workqueue_lowprio_work_q(), &frame_work,
+                                LED_TAKEOVER_POWER_UP_DELAY);
 }
 
 static void battery_led_indicator_start(bool warn) {

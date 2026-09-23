@@ -1,0 +1,5 @@
+description: Light the LEDs of a half one by one to find their order in the chain
+
+compatible: "zmk,behavior-led-scan"
+
+include: zero_param.yaml

@@ -70,16 +70,10 @@ static atomic_t caps_lock_requested;
 bool led_strip_indicators_need_power(void) { return caps_lock_on; }
 
 static uint8_t scale(uint8_t channel) {
-#if CONFIG_ZMK_CAPS_LOCK_LED_BRIGHTNESS > 0
-    int percent = CONFIG_ZMK_CAPS_LOCK_LED_BRIGHTNESS;
-#else
-    int percent = underglow_brightness_percent();
-#endif
     if (channel == 0) {
         return 0;
     }
-    // Never go fully dark, otherwise the indicator would be invisible.
-    return MAX(channel * percent / 100, 1);
+    return MAX(channel * indicator_channel_value(CONFIG_ZMK_CAPS_LOCK_LED_BRIGHTNESS) / 255, 1);
 }
 
 static void ensure_power(void) {
@@ -140,11 +134,11 @@ static void refresh_work_cb(struct k_work *work) {
     }
 
     // The power rail was only kept on for the Caps Lock LED.
-    bool battery_shown = false;
-#if IS_ENABLED(CONFIG_ZMK_BATTERY_LED_INDICATOR)
-    battery_shown = battery_led_indicator_is_active();
+    bool taken_over = false;
+#if IS_ENABLED(CONFIG_ZMK_LED_TAKEOVER)
+    taken_over = led_takeover_active();
 #endif
-    if (!caps_lock_on && !underglow_on && !battery_shown && ext_power != NULL &&
+    if (!caps_lock_on && !underglow_on && !taken_over && ext_power != NULL &&
         ext_power_get(ext_power) > 0) {
         ext_power_disable(ext_power);
     }

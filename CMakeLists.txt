@@ -1,2 +1,4 @@
+target_sources_ifdef(CONFIG_ZMK_LED_TAKEOVER app PRIVATE src/led_takeover.c)
 target_sources_ifdef(CONFIG_ZMK_BATTERY_LED_INDICATOR app PRIVATE src/battery_led_indicator.c)
 target_sources_ifdef(CONFIG_ZMK_LED_STRIP_INDICATORS app PRIVATE src/led_strip_indicators.c)
+target_sources_ifdef(CONFIG_ZMK_LED_SCAN app PRIVATE src/led_scan.c)

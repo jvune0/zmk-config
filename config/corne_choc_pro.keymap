@@ -26,6 +26,13 @@
             #binding-cells = <0>;
             display-name = "Battery Level";
         };
+
+        // Lights the LEDs of the half it is pressed on one by one (see src/led_scan.c).
+        led_scan: led_scan {
+            compatible = "zmk,behavior-led-scan";
+            #binding-cells = <0>;
+            display-name = "LED Scan";
+        };
     };
 
     combos {

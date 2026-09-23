@@ -1,7 +1,12 @@
+# Shared code that temporarily takes the LEDs over from the underglow.
+config ZMK_LED_TAKEOVER
+    bool
+
 config ZMK_BATTERY_LED_INDICATOR
     bool "Show battery level on the RGB underglow LEDs"
     default y
     depends on ZMK_RGB_UNDERGLOW && ZMK_BATTERY_REPORTING
+    select ZMK_LED_TAKEOVER
 
 if ZMK_BATTERY_LED_INDICATOR
 
@@ -50,5 +55,19 @@ config ZMK_CAPS_LOCK_LED_BRIGHTNESS
     int "Caps Lock LED brightness in percent (0 = follow the underglow brightness)"
     range 0 100
     default 0
+
+endif
+
+config ZMK_LED_SCAN
+    bool "&led_scan: light the LEDs one by one to find their order in the chain"
+    default y
+    depends on DT_HAS_ZMK_BEHAVIOR_LED_SCAN_ENABLED && ZMK_RGB_UNDERGLOW
+    select ZMK_LED_TAKEOVER
+
+if ZMK_LED_SCAN
+
+config ZMK_LED_SCAN_DELAY_MS
+    int "How long each LED is lit"
+    default 500
 
 endif
