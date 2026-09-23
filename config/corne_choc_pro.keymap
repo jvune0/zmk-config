@@ -28,6 +28,7 @@
         };
 
         // Lights the LEDs of the half it is pressed on one by one (see src/led_scan.c).
+
         led_scan: led_scan {
             compatible = "zmk,behavior-led-scan";
             #binding-cells = <0>;
@@ -333,7 +334,7 @@
         service_layer {
             display-name = "SERVICE";
             bindings = <
-&trans      &trans           &trans        &trans        &trans        &studio_unlock  &bootloader  &bootloader  &trans           &trans           &trans           &trans           &trans  &trans
+&led_scan   &trans           &trans        &trans        &trans        &studio_unlock  &bootloader  &bootloader  &trans           &trans           &trans           &trans           &trans  &led_scan
 &trans      &bt BT_SEL 0     &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &sys_reset   &sys_reset   &rgb_ug RGB_HUD  &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &rgb_ug RGB_HUI  &trans  &trans
 &bt BT_CLR  &rgb_ug RGB_TOG  &bat_ind      &trans        &trans        &trans                                    &trans           &trans           &trans           &trans           &trans  &trans
                                            &trans        &trans        &trans                                    &trans           &trans           &trans
