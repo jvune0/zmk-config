@@ -37,3 +37,18 @@ config ZMK_BATTERY_LED_WARN_BLINKS
     default 3
 
 endif
+
+config ZMK_LED_STRIP_INDICATORS
+    bool "Caps Lock indicator LED on top of the RGB underglow"
+    default y
+    depends on DT_HAS_ZMK_LED_STRIP_INDICATORS_ENABLED && ZMK_RGB_UNDERGLOW
+    select ZMK_HID_INDICATORS
+
+if ZMK_LED_STRIP_INDICATORS
+
+config ZMK_CAPS_LOCK_LED_BRIGHTNESS
+    int "Caps Lock LED brightness in percent (0 = follow the underglow brightness)"
+    range 0 100
+    default 0
+
+endif

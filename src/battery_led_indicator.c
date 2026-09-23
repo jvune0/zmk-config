@@ -34,6 +34,8 @@
 #endif
 #include <zmk/workqueue.h>
 
+#include "led_indicators.h"
+
 LOG_MODULE_REGISTER(battery_led, CONFIG_ZMK_LOG_LEVEL);
 
 #define STRIP_NODE DT_CHOSEN(zmk_underglow)
@@ -76,10 +78,7 @@ static uint8_t indicator_brightness(void) {
 #if CONFIG_ZMK_BATTERY_LED_BRIGHTNESS > 0
     int percent = CONFIG_ZMK_BATTERY_LED_BRIGHTNESS;
 #else
-    // Same scaling the underglow driver applies, so RGB_BRI / RGB_BRD adjust the indicator too.
-    int percent = CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN +
-                  (CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX - CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN) *
-                      zmk_rgb_underglow_calc_brt(0).b / 100;
+    int percent = underglow_brightness_percent();
 #endif
     // Never go fully dark, otherwise the indicator would be invisible.
     return MAX(percent * 255 / 100, 1);
@@ -112,12 +111,20 @@ static void draw(uint8_t level, bool lit) {
     }
 }
 
+bool battery_led_indicator_is_active(void) { return active; }
+
 static void finish(void) {
     if (restore_underglow) {
         zmk_rgb_underglow_on();
     } else {
         draw(0, false);
-        if (restore_ext_power_off && ext_power != NULL) {
+
+        bool keep_power = false;
+#if IS_ENABLED(CONFIG_ZMK_LED_STRIP_INDICATORS)
+        // The Caps Lock LED still needs the power rail.
+        keep_power = led_strip_indicators_need_power();
+#endif
+        if (restore_ext_power_off && ext_power != NULL && !keep_power) {
             ext_power_disable(ext_power);
         }
     }

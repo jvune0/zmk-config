@@ -1,0 +1,20 @@
+/*
+ * Caps Lock indicator on the left half: the underglow goes through the indicator proxy,
+ * which lights one LED on top of the underglow while Caps Lock is on.
+ */
+
+/ {
+    chosen {
+        zmk,underglow = &led_indicators;
+    };
+
+    led_indicators: led_indicators {
+        compatible = "zmk,led-strip-indicators";
+        led-strip = <&led_strip>;
+        chain-length = <23>;
+        // Index of the LED in the chain (0-22). Adjust until the right key lights up.
+        caps-lock-led = <0>;
+        // <R G B> at full brightness, scaled by the brightness setting.
+        caps-lock-color = <255 255 255>;
+    };
+};

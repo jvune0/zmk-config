@@ -1,0 +1,25 @@
+description: |
+  LED strip proxy that passes the underglow frames through to the real strip and lights
+  an indicator LED (Caps Lock) on top of them. Point the zmk,underglow chosen node at it.
+
+compatible: "zmk,led-strip-indicators"
+
+include: base.yaml
+
+properties:
+  led-strip:
+    type: phandle
+    required: true
+    description: The real LED strip.
+  chain-length:
+    type: int
+    required: true
+    description: Number of LEDs, must match the real strip.
+  caps-lock-led:
+    type: int
+    required: true
+    description: Index of the LED in the chain that shows Caps Lock.
+  caps-lock-color:
+    type: array
+    default: [255, 255, 255]
+    description: Caps Lock color as <R G B> at full brightness, scaled by the brightness setting.
