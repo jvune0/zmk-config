@@ -10,9 +10,9 @@ config ZMK_BATTERY_LED_DURATION_MS
     default 3000
 
 config ZMK_BATTERY_LED_BRIGHTNESS
-    int "Indicator brightness in percent"
-    range 1 100
-    default 20
+    int "Indicator brightness in percent (0 = follow the underglow brightness)"
+    range 0 100
+    default 0
 
 config ZMK_BATTERY_LED_LEVEL_HIGH
     int "Battery level above which the indicator is green"

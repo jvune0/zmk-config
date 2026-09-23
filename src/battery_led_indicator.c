@@ -71,15 +71,29 @@ static void start_work_cb(struct k_work *work);
 static K_WORK_DELAYABLE_DEFINE(frame_work, frame_work_cb);
 static K_WORK_DEFINE(start_work, start_work_cb);
 
+// Channel value (0-255) for the indicator.
+static uint8_t indicator_brightness(void) {
+#if CONFIG_ZMK_BATTERY_LED_BRIGHTNESS > 0
+    int percent = CONFIG_ZMK_BATTERY_LED_BRIGHTNESS;
+#else
+    // Same scaling the underglow driver applies, so RGB_BRI / RGB_BRD adjust the indicator too.
+    int percent = CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN +
+                  (CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX - CONFIG_ZMK_RGB_UNDERGLOW_BRT_MIN) *
+                      zmk_rgb_underglow_calc_brt(0).b / 100;
+#endif
+    // Never go fully dark, otherwise the indicator would be invisible.
+    return MAX(percent * 255 / 100, 1);
+}
+
 static struct led_rgb level_color(uint8_t level) {
-    uint8_t v = CONFIG_ZMK_BATTERY_LED_BRIGHTNESS * 255 / 100;
+    uint8_t v = indicator_brightness();
 
     if (level > CONFIG_ZMK_BATTERY_LED_LEVEL_HIGH) {
         return (struct led_rgb){.r = 0, .g = v, .b = 0};
     }
     if (level > CONFIG_ZMK_BATTERY_LED_LEVEL_LOW) {
         // Green WS2812 dies are brighter, tone them down to get a proper yellow.
-        return (struct led_rgb){.r = v, .g = v * 2 / 3, .b = 0};
+        return (struct led_rgb){.r = v, .g = MAX(v * 2 / 3, 1), .b = 0};
     }
     return (struct led_rgb){.r = v, .g = 0, .b = 0};
 }
