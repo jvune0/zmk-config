@@ -12,8 +12,8 @@
         compatible = "zmk,led-strip-indicators";
         led-strip = <&led_strip>;
         chain-length = <23>;
-        // Index of the LED in the chain (0-22). Adjust until the right key lights up.
-        caps-lock-led = <0>;
+        // Index of the LED in the chain (0-22), see docs/leds.md. 22 is the key with &kp CAPS.
+        caps-lock-led = <22>;
         // <R G B> at full brightness, scaled by the brightness setting.
         caps-lock-color = <255 255 255>;
     };
